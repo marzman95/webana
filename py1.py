@@ -24,6 +24,12 @@ filename = 'datas\clicking_data'
 data = pd.read_csv(filename, header=0, sep="\t")
 #print(data.shape)
 
+Count_Row = data.shape[0] #gives number of row count
+Count_Col = data.shape[1] #gives number of col count
+print("Data has",Count_Row, "rows &", Count_Col, "columns")
+
+print("")
+
 #print complete matrix / dataset
 #print(data)
 
@@ -47,6 +53,17 @@ print("")
 
 print("data.iloc row 0, column 1 & 2")
 print(data.iloc[0:1, 1:3])
+
+print("")
+
+#select data based on conditions
+clic = data['action'] == "clic"
+view = data['action'] == "view"
+
+print("data[clic] & column action, tstamp, u_session & no duplicates")
+sel = data[clic]
+sel.drop_duplicates()
+print(sel.iloc[:, [0,3,4]])
 
 # Print it
 #print(file.read())
