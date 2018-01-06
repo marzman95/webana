@@ -1,4 +1,5 @@
 # Description of the algorithm and more
+Keep in mind that is works like a greedy algorithm, but also looks for more possible results (more attributes or better probability). It continues based on the best probability found until now and tries to predict the next probabilities and if that is better, use that better one.
 
 1. Setup (*lines __1-3__*)
 2. Repeat until we have had every level
