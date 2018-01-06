@@ -37,59 +37,53 @@ print("")
 #data.iloc[<row selection>, <column selection>]
 #see examples below
 
+'''
 print("clicking_data.iloc row 0 until 5, column 0 & 1")
 print(c_data.iloc[0:5, 0:2])
-
-print("")
-
-print("clicking_data.iloc row 0 until 5, column 1 & 2")
-print(c_data.iloc[0:5, 1:3])
-
-print("")
 
 print("clicking_data.iloc row 0 until 5, column 0, 3 & 4")
 print(c_data.iloc[0:5, [0,3,4]])
 
-print("")
-
-print("meta_data.iloc row 0 until 5, column 0 & 1")
-print(m_data.iloc[0:5, 0:2])
-
-print("")
-
 print("meta_data.iloc row 0 until 5, column 1 & 2")
 print(m_data.iloc[0:5, 1:3])
-
-print("")
 
 print("meta_data.iloc row 0 until 5, all columns") #doesn't fit :-(
 print(m_data.iloc[0:5, :])
 
-print("")
-
-print("experiment_details_5.iloc row 0 until 5, column 0 & 1")
-print(e_data.iloc[0:5, 0:2])
-
-print("")
-
 print("experiment_details_5.iloc row 0 until 5, column 0, 1 & 2")
 print(e_data.iloc[0:5, 0:3])
 
-print("")
-
 print("experiment_details_5.iloc row 0 until 5, column 0, 2 & 3")
 print(e_data.iloc[0:5, [0,2,3]])
+'''
 
-print("")
+selm = m_data.iloc[:,[1,2,3,4,5,6,7,8,12,13,15,16,17,18,19,20,21,22,24,25,26,27,29]]
+'''
+print("selm")
+print(selm)
+print(selm.iloc[:,[9,10,11]])
+'''
 
-#select data based on conditions
-clic = c_data['action'] == "clic"
-view = c_data['action'] == "view"
+merge = pd.merge(selm, e_data, on='user_id', suffixes=('_s', '_e'))
+#merge2 = pd.merge(selm, c_data, left_on='user_id', right_on='user_session', suffixes=('_s', '_c'))
+merge3 = pd.merge(merge, c_data, left_on='user_id', right_on='user_session', suffixes=('_s', '_c'))
 
-print("clicking_data[clic] & column action, tstamp, u_session & no duplicates")
-sel = c_data[clic]
-sel.drop_duplicates()
-print(sel.iloc[:, [0,3,4]])
+#selt = merge3.iloc[:,0:30]
+selt = merge3.iloc[:,[0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]]
+#print(selt)
+ndup = selt.drop_duplicates()
+
+#select data (subset) based on (a) condition(s)
+clic = selt['action'] == "clic"
+view = selt['action'] == "view"
+con1 = selt['condition'] == "1-Control"
+con2 = selt['condition'] == "2-Buttony-Conversion-Buttons"
+
+sub = selt[clic & con2]
+
+print("total_data & clic & con2")
+print(sub)
+
 
 # Print it
 #print(file.read())
