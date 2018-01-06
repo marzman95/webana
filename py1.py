@@ -78,10 +78,12 @@ clic = selt['action'] == "clic"
 view = selt['action'] == "view"
 con1 = selt['condition'] == "1-Control"
 con2 = selt['condition'] == "2-Buttony-Conversion-Buttons"
+dvc1 = selt['dvce_type'] == "Mobile"
+dvc2 = selt['dvce_type'] != "Mobile"
 
-sub = selt[clic & con2]
+sub = selt[clic & con1 & dvc1]
 
-print("total_data & clic & con2")
+print("total_data & conditions")
 print(sub)
 
 
