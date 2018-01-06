@@ -1,0 +1,46 @@
+## Values/columns
+- **geo_country/timezone** (*meta_data*):
+- **url/page** (*meta_data*):
+- **browser/useragent** (*meta_data*):
+- **device** (*meta_data*):
+  - computer
+  - tablet
+  - mobile
+- **language** (*meta_data*):
+- **os** (*meta_data*)
+  - Android (2.x to 6.x) (+ Tablet)
+  - Android Mobile
+  - Blackberry
+    - 6
+    - 7
+    - OS
+  - iOS (4 to 9)
+  - Linux
+  - Mac OS X
+  - MeeGo (from Nokia)
+  - Symbian OS (from Nokia)
+  - Windows
+    - Windows 10
+    - Windows 10 Mobile
+    - Windows 98
+    - Windows Phone 7
+    - Windows Phone 8
+    - Windows Phone 8.1
+  - Unknown
+  - Unknown mobile
+- **page_referrer** (*meta_data*):
+- **event** (*meta_data*)
+  - page_ping
+  - page_view
+- **action** (*clicking_data*)
+  - clic
+  - view
+- **condition** (*experiment_details*): [1-Control, 2-Buttony-Conversion-Buttons]
+
+## Possible subgroups
+- country
+- os
+- language
+- device
+- browser (combine with OS: behave Chrome-users same as android on iOS/windows?)
+- page
