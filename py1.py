@@ -89,6 +89,10 @@ sub = selt[clic & con1 & dvc1]
 print("total_data & conditions")
 print(sub)
 
+# Delete comment of the next to lines to obtain the merged dataset as a CSV-file
+#print("Exporting data")
+#selt.to_csv("export.csv", sep=';')
+
 #print("no duplicates & conditions")
 #print(sub2)
 

@@ -7,7 +7,12 @@ for level in range(1 , d): # loop
     beam = queue.PriorityQueue(w) # create priority queue beam
     while (canditateQueue.empty() != True): # while fifo queue is not empty
         seed = candidateQueue.get() #get first element and set seed to that element
-        setv = #some function n (refinement-operator n(seed), so probably some optimization, see 4.1)
+        #TODO: n(seed) generates set of candidate descriptions for the next level, by discretization
+        #   Descritization: devide the domain (1 to n) of values of attribute a
+        #   over b <= N bins (N #rows). Per level choose a b, depending on the number of N rows.
+        # Wikipedia: discretization is the process of transferring continuous functions, models, variables, and equations into discrete counterparts
+        #TODO: do we have numeric descriptions/attributes?
+        setv = #some function n
         #above one is quite vague, in psuede it says set = n(seed)
         for desc in setv: # for all desc( what is desc) in setv
             quality = #some function y (quality measure)
@@ -16,6 +21,8 @@ for level in range(1 , d): # loop
             if (): #something, in psuede satisfiesall constraints
                 #if in psuedo (desc.satisfiesall(c)) so if desc satisfies al constraints
 
+                #TODO: see slide 3A-15: "A quality measure for Subgroup Discovery summarizes the
+                #       interestingness of a confusion matrix into a single number." Met Yale-Q?
                 resultSet.put(desc.quality()) # set desc.qualityin in result i do not know what i means, but probably because i do not understand desc
                 beam.put(desc.quality()) # set desc.quality in beam
     while (beam.empty() != True): # if beam is not empty
