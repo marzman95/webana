@@ -6,7 +6,50 @@
   - computer
   - tablet
   - mobile
-- **language** (*meta_data*):
+- **language** (*meta_data*)
+  - ar (AE)
+  - bg (BG, BD, IN, BA)
+  - ca (EX)
+  - cs
+  - da (DK)
+  - de (AT, CH, DE)
+  - el (GR)
+  - en (GB, US, AU, AZ, BE, CA, CN, DK, GH, IE, IN, JM, KE, PG, PH, PK, RU, SG, TT, TZ, ZA, ZM, ZW)
+  - es (419, CO, EC, ES, GT, MX, US, XL)
+  - fa
+  - fi
+  - fr (FR, BE, CA, CH, CM)
+  - gu
+  - he
+  - hi
+  - hr
+  - hu
+  - id
+  - it (IT, CH)
+  - ja
+  - ka
+  - km
+  - ko
+  - lt
+  - lv
+  - mk
+  - my
+  - nb
+  - nl (NL, BE)
+  - pa
+  - pl
+  - pt
+  - ro
+  - ru
+  - sk
+  - sl
+  - sr (CS, Latn-RS, RS)
+  - sv
+  - th
+  - tr
+  - uk
+  - vi
+  - zh (CN, TW)
 - **os** (*meta_data*)
   - Android (2.x to 6.x) (+ Tablet)
   - Android Mobile
