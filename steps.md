@@ -1,12 +1,11 @@
 # Description of the algorithm and more
 
-#### steps
 1. Setup (*lines __1-3__*)
 2. Repeat until we have had every level
   1. Setup empty recursion-'path'
-  2. Do as long as we have possible (good) new attributes (candidate) (*line __6__*):
+  2. Do as long as we have possible (good) new attributes (candidates) (*line __6__*):
     1. Subprocedure `n` (*line __8__*):
-        1. do proce
+        1. For all attributes *a* add to result: *a* __is equal__ and *a* __is not equal__ to a value
     2. For every other description do (*line __9__*):
         1. Check quality
         2. Test conditions:
