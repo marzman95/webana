@@ -83,9 +83,14 @@ dvc2 = selt['dvce_type'] != "Mobile"
 
 sub = selt[clic & con1 & dvc1]
 
+#sub2 = ndup[clic & con1 & dvc1]
+#warning will occur for ndup, doesn't affect result & performance but feels bad
+
 print("total_data & conditions")
 print(sub)
 
+#print("no duplicates & conditions")
+#print(sub2)
 
 # Print it
 #print(file.read())
