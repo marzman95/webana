@@ -34,9 +34,26 @@ merge3 = pd.merge(merge, c_data, left_on='user_id', right_on='user_session', suf
 
 selt = merge3.iloc[:,[0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]]
 
+'''
 print(is_string_dtype(selt['user_id']))
 print(is_string_dtype(selt['tstamp']))
 print(is_numeric_dtype(selt['tstamp']))
+print("")
+
+print(selt['tstamp'].min())
+print(selt['tstamp'].max())
+'''
+
+for column in selt:
+    if is_string_dtype(selt[column]):
+        print(column, "is string")
+    else:
+        if is_numeric_dtype(selt['tstamp']):
+            print(column, "is numeric")
+            print("min:", selt[column].min())
+            print("max:", selt[column].max())
+    print("")
+
 print("")
 
 #select data (subset) based on (a) condition(s)
