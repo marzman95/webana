@@ -44,6 +44,10 @@ for column in selt:
             print("max:", selt[column].max())
     print("")
 
+Count_RowT = selt.shape[0] #gives number of row count
+Count_ColT = selt.shape[1] #gives number of col count
+print("selt has",Count_RowT, "rows &", Count_ColT, "columns")
+
 #select data (subset) based on (a) condition(s)
 clic = selt['action'] == "clic"
 view = selt['action'] == "view"
