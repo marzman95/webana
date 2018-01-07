@@ -1,9 +1,45 @@
 import queue
-import pandas
+import numpy as np
+import pandas as pd
+from pandas.api.types import is_string_dtype
+from pandas.api.types import is_numeric_dtype
+
+filename = 'datas\clicking_data'
+c_data = pd.read_csv(filename, header=0, sep="\t") #clicking_data
+
+filename2 = 'datas\meta_data'
+m_data = pd.read_csv(filename2, header=0, sep="\t", encoding = "ISO-8859-1") #meta_data
+
+filename3 = 'datas\experiment_details_5'
+e_data = pd.read_csv(filename3, header=0) #experiment_details_5
 
 isnumeric = []
-for # loop to check if colum name is numeric
 
+selm = m_data.iloc[:,[1,2,3,4,5,6,7,8,12,13,15,16,17,18,19,20,21,22,24,25,26,27,29]]
+
+merge = pd.merge(selm, e_data, on='user_id', suffixes=('_s', '_e'))
+
+merge3 = pd.merge(merge, c_data, left_on='user_id', right_on='user_session', suffixes=('_s', '_c'))
+
+selt = merge3.iloc[:,[0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]]
+
+
+numerictracker = 1
+for column in selt:
+    if is_string_dtype(selt[column]):
+        print(column, "is string")
+    else:
+        if is_numeric_dtype(selt[column]):
+            print(column, "is numeric")
+            isnumeric[numerictracker] = column
+            numerictracker = numerictracker+1
+            print("min:", selt[column].min())
+            print("max:", selt[column].max())
+    print("")
+
+
+
+def beamsearch(w, d, bins)
 
 candidateQueue = queue.Queue() # create fifo queue candidateQueue
 resultSet = queue.PriorityQueue(q) # create priority queue resultSet
@@ -15,15 +51,17 @@ for level in range(1 , d): # loop
         #TODO: n(seed) generates set of candidate descriptions for the next level, by discretization
         #   Descritization: devide the domain (1 to n) of values of attribute a
         #   over b <= N bins (N #rows). Per level choose a b, depending on the number of N rows.
-        if ()# check if column name is numeric using isnumeric array
-            minv = df['colname'].min()       # set min
-            maxv = df['colname'].max()       # set max
-            dif = (minv - maxv) / bins
-            setv = []
-            for i in range(1, dif):
-                minv = minv+dif
-                setv[i] = minv
-                
+        for num in isnumeric:
+            if (isnumeric[num] == seed):
+    
+                minv = df['colname'].min()       # set min
+                maxv = df['colname'].max()       # set max
+                dif = (minv - maxv) / bins
+                setv = []
+                for i in range(1, dif):
+                    minv = minv+dif
+                    setv[i] = minv
+            else for # each different answer make a bin        
         # Wikipedia: discretization is the process of transferring continuous functions, models, variables, and equations into discrete counterparts
         #TODO: do we have numeric descriptions/attributes?
         #setv = some function n
@@ -31,6 +69,8 @@ for level in range(1 , d): # loop
         for desc in setv: # for all desc( what is desc) in setv
             quality = #some function y (quality measure)
             # in psuedo above says: quality = y(desc)
+            # check all bins for (eenduidigheid) hoeveel informatie geeft een bepaalde bin
+            # if not numeric  just check how usefull every group is
 
             if (): #something, in psuede satisfiesall constraints
                 #if in psuedo (desc.satisfiesall(c)) so if desc satisfies al constraints
