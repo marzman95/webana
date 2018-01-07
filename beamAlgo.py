@@ -1,4 +1,9 @@
 import queue
+import pandas
+
+isnumeric = []
+for # loop to check if colum name is numeric
+
 
 candidateQueue = queue.Queue() # create fifo queue candidateQueue
 resultSet = queue.PriorityQueue(q) # create priority queue resultSet
@@ -10,9 +15,18 @@ for level in range(1 , d): # loop
         #TODO: n(seed) generates set of candidate descriptions for the next level, by discretization
         #   Descritization: devide the domain (1 to n) of values of attribute a
         #   over b <= N bins (N #rows). Per level choose a b, depending on the number of N rows.
+        if ()# check if column name is numeric using isnumeric array
+            minv = df['colname'].min()       # set min
+            maxv = df['colname'].max()       # set max
+            dif = (minv - maxv) / bins
+            setv = []
+            for i in range(1, dif):
+                minv = minv+dif
+                setv[i] = minv
+                
         # Wikipedia: discretization is the process of transferring continuous functions, models, variables, and equations into discrete counterparts
         #TODO: do we have numeric descriptions/attributes?
-        setv = #some function n
+        #setv = some function n
         #above one is quite vague, in psuede it says set = n(seed)
         for desc in setv: # for all desc( what is desc) in setv
             quality = #some function y (quality measure)
