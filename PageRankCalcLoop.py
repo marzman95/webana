@@ -49,7 +49,12 @@ pr = nx.pagerank(G, alpha=0.85)
 
 #calculations function
 def doCalc(G, counter, results):
+        print("start calculations")
+        fh = open("hamster.edgelist", 'rb')
+        Ginit = nx.read_edgelist(fh,create_using=nx.DiGraph())
+        fh.close()
         pr = nx.pagerank(G, alpha=0.85)
+        prtwo = nx.pagerank(Ginit, alpha=0.85)
         avg = float(1)/ float(number_of_nodes(G))
         isavg = 0
         underavg = 0
@@ -103,6 +108,8 @@ def doCalc(G, counter, results):
         w = str(statistics.stdev(items))
         x = str(statistics.variance(items))
         y= str(statistics.StatisticsError(items))
+        
+        
         if(os.stat(os.getcwd()+"/results/testResults"+str(counter)+".txt").st_size >= 5000000):
                 results.close()
                 counter= counter +1
@@ -111,6 +118,11 @@ def doCalc(G, counter, results):
         results.write('\n')
         results.write('testdata \n')
         results.write(json.dumps(pr)+'\n')
+        print("start new pagerank")
+        one = pagerankCalc(G,pr, False)
+        print("start init pagerank")
+        two = pagerankCalc(Ginit,prtwo, False)
+
         results.write("average: "+f+'\n')
         results.write("total: "+b+'\n')
         results.write("isavg: "+c+'\n')
@@ -129,7 +141,23 @@ def doCalc(G, counter, results):
         results.write("pvariance: "+v+'\n')
         results.write("stdev: "+w+'\n')
         results.write("variance: "+x+'\n')
+        print("start pagerank calc")
+        results.write("rank list: "+json.dumps(one)+'\n')
+        results.write("rank list init: "+json.dumps(two)+'\n')
         results.write("error: "+y+'\n') # too much data, only if actually test
+        print("start eroor calc")
+        
+        results.write("rank list error : "+json.dumps(one)+'\n')
+        results.write("rank list init error: "+json.dumps(two)+'\n')
+        print("start error calc")
+        error = calcrankError(two, one)
+
+        pr = nx.pagerank(G, alpha=0.85)
+        prtwo = nx.pagerank(Ginit, alpha=0.85)
+        
+        errorvalue = calcvalueError(two, one, prtwo, pr)
+        results.write("rank based error: "+str(error)+'\n')        
+        results.write("value based error: "+str(errorvalue)+'\n')
         print("succes writing to test "+str(counter) +" result")
         return counter, results
 
@@ -266,7 +294,7 @@ def mandelete(G, n, singles):
 def mandelnode(G, n, singles):
         counter = 0
         results = open(os.getcwd()+"/results/testResults"+str(counter)+".txt", 'w')
-        while(n >= 0):
+        while(n > 0):
                 
                 found = False
                 while not found:
@@ -341,11 +369,100 @@ def statdeledge(G, stat, singles, n):
         counter = info[0]
         results = info[1]
         results.close()
+def pagerankCalc(G, pr, error):
+        rankedlist = {}
+        rankcount = 1
+        lastmax = 1
+        while (rankcount <= number_of_nodes(G)):
+                maxv = 0
+                maxk = 0
+                for key, value in pr.items():
+                        if (float(value) <= float(lastmax) and float(value) > float(maxv) ):
+                                maxv = value
+                                maxk = key
+                                if(float(maxv)==float(lastmax)):
+                                        break
+                if (error):
+                        rankedlist[maxk] = rankcount #error calc form
+                else:
+                        rankedlist[rankcount] = maxk #normal form
+                rankcount = rankcount+1
+                lastmax = maxv
+                pr.pop(maxk, maxv)
+        #print(str(len(rankedlist))+" vs. "+str(number_of_nodes(G)))
+        return rankedlist
+
+def calcrankError(rankinit, newrank):
+        print("in rank error") 
+        error = 0
+        nodecount = 1
+        while nodecount <= len(rankinit):
+                rankbase = 0
+                ranknew = 0
+                for k, l in rankinit.items():
+                        
+                        if (l == str(nodecount)):
+                                rankbase = k
+                                #print(str(rankbase)+" with "+l)
+                                break
+                for i, j in newrank.items():
+                        
+                        if j == str(nodecount):
+                                ranknew = i
+                                #print(str(ranknew)+" with "+j)
+                                break
+                if(ranknew > 0):
+                        calc = ranknew - rankbase
+                        if (calc < 0 ):
+                                calc =  float(calc) * -1
+                        calc =  float(calc) / rankbase
+                        error = error + calc
+                else:
+                        error = float(error) +0
+                nodecount= nodecount+1
+                
+                #print(str(nodecount))
+                          
+        return error
+def calcvalueError(rankinit, newrank, prinit, prnew):
+        error = 0
+        nodecount = 1
+        while nodecount <= len(rankinit):
+                rankbase = 0
+                ranknew = 0
+                
+                #print("value: "+prinit.get(nodecount))
+                for k, l in rankinit.items():
+                        if (l == str(nodecount)):
+                                rankbase = k
+                                #print(str(rankbase)+" with "+l)
+                init = -1
+                new = -1
+                if str(nodecount) in prinit:
+                        init = prinit.get(str(nodecount))
+                if str(nodecount) in prnew:
+                        new = prnew.get(str(nodecount))
+                #print(str(new))
+                #print(str(init))
+                if(new <0 or init < 0):
+                        error = error +0
+                else: 
+                        calc = float(new) - float(init)
+                        if(calc < 0):
+                                calc = float(calc) * -1
+                        calc = float(calc) / rankbase
+                        error = error + calc
+                
+                nodecount = nodecount +1
+        return error
+                
         
 if (manualtest):
-        #mandelete(G, 10000, False)
-        #mandelnode(G, 2000, False)
+        #mandelete(G, 5000, False)
+        mandelnode(G, 1000, False)
         outdegreelist = []
         for num in range (0, number_of_nodes(G)-1):
                 outdegreelist.append(len(G.edges(str(num))))
-        statdeledge(G, outdegreelist, False, 2000)
+        #statdeledge(G, outdegreelist, False, 500)
+        #print(pagerankCalc(G, pr))
+        
