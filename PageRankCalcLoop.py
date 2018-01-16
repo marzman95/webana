@@ -320,7 +320,7 @@ def mandelnode(G, n, singles):
         results = info[1]
         results.close()
 
-def statdeledge(G, stat, singles, n):
+def statdelnode(G, stat, singles, n):
         counter = 0
         results = open(os.getcwd()+"/results/testResults"+str(counter)+".txt", 'w')
         minv = min(stat)
@@ -526,15 +526,135 @@ def manaddedge(G, n, singles):
         counter = info[0]
         results = info[1]
         results.close()             
+
+
+def statdeledge(G, stat, singles, n):
+        counter = 0
+        results = open(os.getcwd()+"/results/testResults"+str(counter)+".txt", 'w')
+        minv = min(stat)
+        maxv = max(stat)
+        minlist = []
+        maxlist = []
+        min1list = []
+        min2list = []
+        min3list = []
+        betweenlist = []
+        for num in range (0,len(stat)):
+                if(stat[num] == minv):
+                        minlist.append(num)
+                elif stat[num] == maxv:
+                        maxlist.append(num)
+                elif stat[num] == minv+1:
+                        min1list.append(num)
+                elif stat[num] == minv+2:
+                        min2list.append(num)
+                elif stat[num] == minv+3:
+                        min3list.append(num)
+                elif stat[num] > minv+2 & stat[num] < maxv:
+                        betweenlist.append(num)
+                        
+        
+        while(n >= 0):
+                if len(minlist)-1  == 1: 
+                        minlist = min1list
+                        min1list = min2list
+                        min2list = min3list
+                        min3list = betweenlist
+                if len(minlist)-1 > 1:
+                        rand = rd(1, len(minlist)-1)
+                else:
+                        rand = 1
+                dele = minlist[rand]
+                minlist.pop(rand)
+                min1list.append(rand)
+                rand2 = rd(0, len(G.edges(str(dele))))
+                inc = 0
+                for i in G.edges(str(dele)):
+                        
+                        if inc == rand2:
+                                G.remove_edge(i)
+                        inc= inc +1
+                
+                if(singles):
+                        info = doCalc(G, counter ,results )
+                        counter = info[0]
+                        results = info[1]
+                        G=Ginit
+                n = n-1
+        info = doCalc(G, counter ,results )
+        counter = info[0]
+        results = info[1]
+        results.close()
+
+def stataddedge(G, stat, singles, n):
+        counter = 0
+        results = open(os.getcwd()+"/results/testResults"+str(counter)+".txt", 'w')
+        minv = min(stat)
+        maxv = max(stat)
+        minlist = []
+        maxlist = []
+        min1list = []
+        min2list = []
+        min3list = []
+        betweenlist = []
+        for num in range (0,len(stat)):
+                if(stat[num] == minv):
+                        minlist.append(num)
+                elif stat[num] == maxv:
+                        maxlist.append(num)
+                elif stat[num] == minv+1:
+                        min1list.append(num)
+                elif stat[num] == minv+2:
+                        min2list.append(num)
+                elif stat[num] == minv+3:
+                        min3list.append(num)
+                elif stat[num] > minv+2 & stat[num] < maxv:
+                        betweenlist.append(num)
+                        
+        
+        while(n >= 0):
+                if len(minlist)-1  == 1: 
+                        minlist = min1list
+                        min1list = min2list
+                        min2list = min3list
+                        min3list = betweenlist
+                if len(minlist)-1 > 1:
+                        rand = rd(1, len(minlist)-1)
+                else:
+                        rand = 1
+                dele = minlist[rand]
+                minlist.pop(rand)
+                min1list.append(rand)
+                rand2 = rd(1, number_of_nodes(G))
+                found = False
+                while not found:
+                        found = True
+                        for i in G.edges(str(dele)):
+                                if(i == "("+str(dele)+", "+str(rand2)+")"):
+                                        rand2 = rd(1, number_of_nodes(G))
+                                        found = False
+                G.add_edge(str(dele), str(rand2))
+                if(singles):
+                        info = doCalc(G, counter ,results )
+                        counter = info[0]
+                        results = info[1]
+                        G=Ginit
+                n = n-1
+        info = doCalc(G, counter ,results )
+        counter = info[0]
+        results = info[1]
+        results.close()
         
 if (manualtest):
         #mandelete(G, 5000, False)
         #mandelnode(G, 1000, False)
         #manaddnode(G, 100, False)
-        manaddedge(G,  10, False)
+        #manaddedge(G,  10, False)
         outdegreelist = []
         for num in range (0, number_of_nodes(G)-1):
                 outdegreelist.append(len(G.edges(str(num))))
-        #statdeledge(G, outdegreelist, False, 500)
+        #statdelnode(G, outdegreelist, False, 500)
+        #statdeledge(G, outdegreelist, False, 10)
+        stataddedge(G, outdegreelist, False, 10)
         #print(pagerankCalc(G, pr))
         
