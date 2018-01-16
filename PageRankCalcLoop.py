@@ -102,12 +102,12 @@ def doCalc(G, counter, results):
         p = str(statistics.median_low(items))
         q = str(statistics.median_high(items))
         s = str(statistics.median_grouped(items))
-        t = str(statistics.mode(items))
+        #t = str(statistics.mode(items))
         u = str(statistics.pstdev(items))
         v = str(statistics.pvariance(items))
         w = str(statistics.stdev(items))
         x = str(statistics.variance(items))
-        y= str(statistics.StatisticsError(items))
+        #y= str(statistics.StatisticsError(items))
         
         
         if(os.stat(os.getcwd()+"/results/testResults"+str(counter)+".txt").st_size >= 5000000):
@@ -136,7 +136,7 @@ def doCalc(G, counter, results):
         results.write("low median: "+p+'\n')
         results.write("high median: "+q+'\n')
         results.write("grouped median: "+s+'\n')
-        results.write("mode: "+t+'\n')
+        #results.write("mode: "+t+'\n')
         results.write("pstdev: "+u+'\n')
         results.write("pvariance: "+v+'\n')
         results.write("stdev: "+w+'\n')
@@ -144,7 +144,7 @@ def doCalc(G, counter, results):
         print("start pagerank calc")
         results.write("rank list: "+json.dumps(one)+'\n')
         results.write("rank list init: "+json.dumps(two)+'\n')
-        results.write("error: "+y+'\n') # too much data, only if actually test
+        #results.write("error: "+y+'\n') # too much data, only if actually test
         print("start eroor calc")
         
         results.write("rank list error : "+json.dumps(one)+'\n')
@@ -369,6 +369,7 @@ def statdeledge(G, stat, singles, n):
         counter = info[0]
         results = info[1]
         results.close()
+        
 def pagerankCalc(G, pr, error):
         rankedlist = {}
         rankcount = 1
@@ -455,11 +456,82 @@ def calcvalueError(rankinit, newrank, prinit, prnew):
                 
                 nodecount = nodecount +1
         return error
+
+
+def manaddnode(G, n, singles):
+        counter = 0
+        results = open(os.getcwd()+"/results/testResults"+str(counter)+".txt", 'w')
+        nodecount = number_of_nodes(G) + 1
+        #print(str(nodecount))
+        while(n > 0):
                 
+                G.add_node(str(nodecount))
+                incNodes = rd(0, nodecount-1)
+                outNodes = rd(0, nodecount-1)
+                for i in range(1, incNodes):
+                        rand = rd(1, nodecount-1)
+                        G.add_edge(str(rand), str(nodecount))
+                for j in range(1, outNodes):
+                        rand2 = rd(1, nodecount-1)
+                        G.add_edge(str(nodecount), str(rand2))
+
+                if (singles):
+                        info = doCalc(G, counter ,results )
+                        counter = info[0]
+                        results = info[1]
+                        G = Ginit
+                
+                nodecount = nodecount+1
+               # print(n)
+                n = n-1
+        info = doCalc(G, counter ,results )
+        counter = info[0]
+        results = info[1]
+        results.close()
+
+
+def manaddedge(G, n, singles):
+        counter = 0
+        results = open(os.getcwd()+"/results/testResults"+str(counter)+".txt", 'w')
+        nodecount = number_of_nodes(G)
+        #print(str(nodecount))
+        while(n > 0):
+                
+
+                rand = rd(1, nodecount)
+                rand2 = rd(1, nodecount-1)
+                found = False
+                while not found:
+                        found = True
+                        for x in G.edges(str(rand)):
+                                if(x == "("+str(rand)+", "+str(rand2)+")"):
+                                        rand2 = rd(1, nodecount-1)
+                                        found = False
+                                        break
+                                #print (x)
+                                #print (str(rand)+str(rand2))
+                        
+                G.add_edge(str(rand), str(rand2))
+
+                if (singles):
+                        info = doCalc(G, counter ,results )
+                        counter = info[0]
+                        results = info[1]
+                        G = Ginit
+                
+                
+               # print(n)
+                n = n-1
+        info = doCalc(G, counter ,results )
+        counter = info[0]
+        results = info[1]
+        results.close()             
         
 if (manualtest):
         #mandelete(G, 5000, False)
-        mandelnode(G, 1000, False)
+        #mandelnode(G, 1000, False)
+        #manaddnode(G, 100, False)
+        manaddedge(G,  10, False)
         outdegreelist = []
         for num in range (0, number_of_nodes(G)-1):
                 outdegreelist.append(len(G.edges(str(num))))
