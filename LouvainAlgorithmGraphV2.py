@@ -2,8 +2,6 @@ import community
 import networkx as nx
 import matplotlib.pyplot as plt
 
-from random import randint
-
 # load the edge list and create a directed Graph
 fh = open("hamster.edgelist", 'rb')
 G = nx.read_edgelist(fh)
